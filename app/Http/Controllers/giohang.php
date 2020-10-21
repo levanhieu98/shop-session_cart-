@@ -93,7 +93,7 @@ class giohang extends Controller
     public function luugiohangDB(Request $rq)
     {
         $cart = $rq->session()->get('giohang');
-        for ($i = 0; $i < count($cart); $i++) {
+      
             $idbill = DB::table('bill')->insertGetId([
                 'Name' => $rq->customerName,
                 'Date' => now(),
@@ -102,8 +102,9 @@ class giohang extends Controller
                 'Trangthai' => 1,
                 'id' => Auth::id(),
             ]);
+              for ($i = 0; $i < count($cart); $i++) {
             DB::table('totalbill')->insert(['Name_product' => $cart[$i]['name_product'], 'price' => $cart[$i]['price'], 'quantity' => $cart[$i]['qty'], 'Id_bill' => $idbill]);
-        }
+            }
         $rq->session()->forget('giohang');
         return redirect('/home/trangchu');
     }
